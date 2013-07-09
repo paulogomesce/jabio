@@ -14,3 +14,6 @@ Sites de Consulta
 
 - Integração do JSF 2.0 com o Spring
   http://www.mkyong.com/jsf2/jsf-2-0-spring-integration-example/
+  
+- configurar o Eclipse para rodar corretamente aplicação do maven no Tomcat  
+  http://silvacarvalho.net/blog/?p=1096
