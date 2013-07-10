@@ -4,12 +4,10 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import org.springframework.context.annotation.Scope;
 
+import br.com.jabio.dao.PessoaDao;
 import br.com.jabio.modelo.Pessoa;
 import br.com.jabio.utilitario.FacesMessageUtil;
 
@@ -23,20 +21,13 @@ public class ManutencaoPessoaBean implements Serializable{
 	private Pessoa pessoa;	
 	@Inject
 	private FacesMessageUtil mensagensJsf;
+	@Inject
+	private PessoaDao pessoaDao;
 	
 	public void gravar(){
-		try{
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("conexao.jpa.postgres");
-			EntityManager em = factory.createEntityManager();
-			
-			em.getTransaction().begin();
-			em.merge(pessoa);
-			em.getTransaction().commit();
-			pessoa = null;
-			mensagensJsf.mensagemDeInformacao("Sucesso", "Operação realizada com sucesso.--");
-		}catch(Exception e){
-			mensagensJsf.mensagemDeErroFatal("Erro", e.getMessage());
-		}
+		pessoaDao.gravar(pessoa);
+		mensagensJsf.mensagemDeInformacao("Sucesso!", "Operação realizada com sucesso.");
+		pessoa = null;
 	}
 	
 	public Pessoa getPessoa() {
