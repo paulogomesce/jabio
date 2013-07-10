@@ -2,8 +2,7 @@ package br.com.jabio.managedbean;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,13 +11,18 @@ import javax.persistence.Persistence;
 import org.springframework.context.annotation.Scope;
 
 import br.com.jabio.modelo.Pessoa;
+import br.com.jabio.utilitario.FacesMessageUtil;
 
 @Named
-@Scope("session")
+@Scope("request")
 public class ManutencaoPessoaBean implements Serializable{
 
-	private static final long serialVersionUID = 1L;	
-	private Pessoa pessoa = new Pessoa();
+	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private Pessoa pessoa;	
+	@Inject
+	private FacesMessageUtil mensagensJsf;
 	
 	public void gravar(){
 		try{
@@ -28,10 +32,10 @@ public class ManutencaoPessoaBean implements Serializable{
 			em.getTransaction().begin();
 			em.merge(pessoa);
 			em.getTransaction().commit();
-			pessoa = new Pessoa();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Sucesso", "Operação realizada com sucesso."));
+			pessoa = null;
+			mensagensJsf.mensagemDeInformacao("Sucesso", "Operação realizada com sucesso.--");
 		}catch(Exception e){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", e.getMessage()));
+			mensagensJsf.mensagemDeErroFatal("Erro", e.getMessage());
 		}
 	}
 	

@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.springframework.stereotype.Component;
+
+@Component
 @Entity
 public class Pessoa implements Serializable{
 
