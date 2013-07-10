@@ -14,15 +14,16 @@
                         http://www.springframework.org/schema/security/spring-security.xsd">
 
 	
-	<!-- Activates scanning of @Autowired -->
+	<!-- Ativa injeção de dependencia por anotation -->
 	<context:annotation-config />
 
-	<!-- Scans for @Repository, @Service and @Component -->
+	<!-- Pacote onde será buscado o beans @Repository, @Service and @Component -->
 	<context:component-scan base-package="br.com.jabio" />
 
-	<!-- Enable @Transactional support -->
+	<!-- Habilitar o spring controlar as transações -->
 	<tx:annotation-driven />
 	
+	<!-- Configurar o spring para criar o entity manager -->
 	<b:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<b:property name="dataSource" ref="dataSource"/>
 		<b:property name="jpaVendorAdapter">
@@ -41,6 +42,7 @@
 		</b:property>
 	</b:bean>
 	
+	<!-- Datasource de conexão com o banco de dados -->
 	<b:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<b:property name="url" value="jdbc:postgresql://localhost:5432/spring_security" />
 		<b:property name="driverClassName" value="org.postgresql.Driver" />
@@ -48,11 +50,12 @@
 		<b:property name="password" value="postgres" />
 	</b:bean>
 	
+	<!-- gerenciador de transações -->
 	<b:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<b:property name="entityManagerFactory" ref="entityManagerFactory"/>	
 	</b:bean>
 	
-<!-- 	Exception translation bean post processor -->
+	<!-- Exception translation bean post processor -->
 	<b:bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 	
 </b:beans>

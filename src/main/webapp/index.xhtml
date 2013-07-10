@@ -22,7 +22,7 @@
 		
 
 			<h:outputLabel for="id">Id</h:outputLabel>
-			<p:inputText id="id" value="#{manutencaoPessoaBean.pessoa.id}" required="true"/>
+			<p:inputText id="id" value="#{manutencaoPessoaBean.pessoa.id}"/>
 		
 		
 			<h:outputLabel for="nome">Nome</h:outputLabel>
@@ -34,7 +34,8 @@
 			<h:outputLabel for="nascimento">Nascimento</h:outputLabel>
 			<p:inputText id="nascimento" value="#{manutencaoPessoaBean.pessoa.nascimento}"/>
 			
-			<h:commandButton actionListener="#{manutencaoPessoaBean.gravar}" value="Gravar"/>		
+			<p:commandButton actionListener="#{manutencaoPessoaBean.gravar}" value="Gravar" update="formulario" ajax="true" />
+			<p:commandButton actionListener="#{manutencaoPessoaBean.novo}" value="Novo" update="formulario" ajax="true" process="@this"/>		
 		
 		</h:panelGrid>
 	

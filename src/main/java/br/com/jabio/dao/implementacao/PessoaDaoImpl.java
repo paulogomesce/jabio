@@ -12,6 +12,7 @@ import br.com.jabio.dao.PessoaDao;
 import br.com.jabio.modelo.Pessoa;
 
 @Repository
+@Transactional(readOnly = true)
 public class PessoaDaoImpl implements PessoaDao{
 	
 	@PersistenceContext

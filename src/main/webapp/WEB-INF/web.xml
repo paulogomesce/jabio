@@ -26,28 +26,35 @@
 	</listener>
 	
 	<!-- Spring (Jpa Support) - OpenEntityManagerInViewFilter -->
-<filter>
-<description>
-Necessário para o Lazy Loading funcionar quando as entidades
-gerenciadas pelo EntityManager forem utilizadas em
-ManagedBeans ou em JSPs.
+	<filter>
+		<description>
+			Necessário para o Lazy Loading funcionar quando as entidades
+			gerenciadas pelo EntityManager forem utilizadas em
+			ManagedBeans ou em JSPs.
+			
+			Um bean com o id 'entityManagerFactory' precisa existir no
+			applicationContext.xml. Se precisar pode ser informado um
+			parâmetro no filtro para indicar qual o id do bean é o
+			EntityManagerFactory. (Ver documentação do Spring)
+		</description>
+		<filter-name>oemiv</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
 
-Um bean com o id 'entityManagerFactory' precisa existir no
-applicationContext.xml. Se precisar pode ser informado um
-parâmetro no filtro para indicar qual o id do bean é o
-EntityManagerFactory. (Ver documentação do Spring)
-</description>
-<filter-name>oemiv</filter-name>
-<filter-class>
-org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter
-</filter-class>
-</filter>
-<filter-mapping>
-<filter-name>oemiv</filter-name>
-<url-pattern>/*</url-pattern>
-</filter-mapping>
+	<filter-mapping>
+		<filter-name>oemiv</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-	
+	<!-- Listener Spring Security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>	
 	
 	<!-- Mudar para produção quando for fazer deploy -->
 	<context-param>

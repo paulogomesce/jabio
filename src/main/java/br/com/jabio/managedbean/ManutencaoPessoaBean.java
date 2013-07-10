@@ -25,9 +25,13 @@ public class ManutencaoPessoaBean implements Serializable{
 	private PessoaDao pessoaDao;
 	
 	public void gravar(){
-		pessoaDao.gravar(pessoa);
+		pessoa = pessoaDao.gravar(pessoa);
 		mensagensJsf.mensagemDeInformacao("Sucesso!", "Operação realizada com sucesso.");
-		pessoa = null;
+		System.out.println(pessoa.getId());
+	}
+	
+	public void novo(){
+		pessoa = new Pessoa();
 	}
 	
 	public Pessoa getPessoa() {
