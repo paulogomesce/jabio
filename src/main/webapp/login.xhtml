@@ -13,7 +13,6 @@
 </h:head>
     
 <h:body>
-<div><a href="j_spring_security_logout">Sair</a></div>
 	
 	<h:form id="formulario">
 	
@@ -22,19 +21,13 @@
 		<h:panelGrid columns="2">
 		
 
-			<h:outputLabel for="id">Id</h:outputLabel>
+			<h:outputLabel for="id">Login</h:outputLabel>
 			<p:inputText id="id" value="#{manutencaoPessoaBean.pessoa.id}"/>
 		
 		
-			<h:outputLabel for="nome">Nome</h:outputLabel>
+			<h:outputLabel for="nome">Senha</h:outputLabel>
 			<p:inputText id="nome" value="#{manutencaoPessoaBean.pessoa.nome}" required="true"/>
 		
-			<h:outputLabel for="cpf">CPF</h:outputLabel>
-			<p:inputText id="cpf" value="#{manutencaoPessoaBean.pessoa.cpf}" required="true"/>
-		
-			<h:outputLabel for="nascimento">Nascimento</h:outputLabel>
-			<p:inputText id="nascimento" value="#{manutencaoPessoaBean.pessoa.nascimento}"/>
-			
 			<p:commandButton actionListener="#{manutencaoPessoaBean.gravar}" value="Gravar" update="formulario" ajax="true" />
 			<p:commandButton actionListener="#{manutencaoPessoaBean.novo}" value="Novo" update="formulario" ajax="true" process="@this"/>		
 		

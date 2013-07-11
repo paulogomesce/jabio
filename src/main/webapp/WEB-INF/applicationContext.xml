@@ -4,15 +4,10 @@
 	xmlns:b="http://www.springframework.org/schema/beans"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.springframework.org/schema/context 
-						http://www.springframework.org/schema/context/spring-context-3.1.xsd 
-						http://www.springframework.org/schema/tx 
-						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
-						http://www.springframework.org/schema/security
-                        http://www.springframework.org/schema/security/spring-security.xsd">
-
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 	
 	<!-- Ativa injeção de dependencia por anotation -->
 	<context:annotation-config />
@@ -22,6 +17,26 @@
 
 	<!-- Habilitar o spring controlar as transações -->
 	<tx:annotation-driven />
+	
+	<!-- Configurações do Spring Security -->
+	<http auto-config="true">
+		<intercept-url pattern="/*" access="ROLE_ADM, ROLE_CONVIDADO, ROLE_PUBLICO" />
+		<intercept-url pattern="/convidado/*" access="ROLE_CONVIDADO" />
+		<intercept-url pattern="/publico/*" access="ROLE_PUBLICO" />
+		<intercept-url pattern="/admin/*" access="ROLE_ADM" />		
+		<logout logout-success-url="/" />
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="admin" authorities="ROLE_ADM, ROLE_PUBLICO, ROLE_CONVIDADO" />
+				<user name="convidado" password="convidado" authorities="ROLE_CONVIDADO" />
+				<user name="publico" password="publico" authorities="ROLE_PUBLICO" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
 	
 	<!-- Configurar o spring para criar o entity manager -->
 	<b:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
