@@ -14,26 +14,28 @@
     
 <h:body>
 	
-	<h:form id="formulario">
+	<c:if test="${not empty param.login_error}">
+		<div class="errorblock">Login ou senha inválido.
+			<!-- ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} -->
+		</div>
+	</c:if>
+		
+	<form action="j_spring_security_check" method="post">
 	
-		<p:growl showDetail="true" autoUpdate="true" />
-		
 		<h:panelGrid columns="2">
-		
 
 			<h:outputLabel for="id">Login</h:outputLabel>
-			<p:inputText id="id" value="#{manutencaoPessoaBean.pessoa.id}"/>
-		
+			<input type="text" name="j_username" value="${not empty login_error ? SPRING_SECURITY_LAST_USERNAME : ''}" />
 		
 			<h:outputLabel for="nome">Senha</h:outputLabel>
-			<p:inputText id="nome" value="#{manutencaoPessoaBean.pessoa.nome}" required="true"/>
-		
-			<p:commandButton actionListener="#{manutencaoPessoaBean.gravar}" value="Gravar" update="formulario" ajax="true" />
-			<p:commandButton actionListener="#{manutencaoPessoaBean.novo}" value="Novo" update="formulario" ajax="true" process="@this"/>		
+			<input type="password" name="j_password" />
+			
+			<input name="submit" type="submit" value="Login" />
+			<input name="reset" type="reset" value="Limpar" />
 		
 		</h:panelGrid>
 	
-	</h:form>
+	</form>
 
 </h:body>
 </html>

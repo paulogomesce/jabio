@@ -19,12 +19,14 @@
 	<tx:annotation-driven />
 	
 	<!-- Configurações do Spring Security -->
-	<http auto-config="true">
-		<intercept-url pattern="/*" access="ROLE_ADM, ROLE_CONVIDADO, ROLE_PUBLICO" />
-		<intercept-url pattern="/convidado/*" access="ROLE_CONVIDADO" />
-		<intercept-url pattern="/publico/*" access="ROLE_PUBLICO" />
-		<intercept-url pattern="/admin/*" access="ROLE_ADM" />		
-		<logout logout-success-url="/" />
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/index.xhtml" access="isAuthenticated()"/>
+		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/convidado/**" access="ROLE_CONVIDADO"/>
+		<intercept-url pattern="/publico/**" access="ROLE_PUBLICO"/>
+		<form-login login-page="/login.xhtml" default-target-url="/index.xhtml"
+			always-use-default-target="true" authentication-failure-url="/login.xhtml?login_error=true" />		
+		<logout logout-success-url="/"/>
 	</http>
 	
 	<authentication-manager>
