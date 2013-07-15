@@ -75,4 +75,12 @@
 	<!-- Exception translation bean post processor -->
 	<b:bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 	
+	<b:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<b:property name="basenames">
+	    <b:list>
+	    	<b:value>spring_security_messages</b:value>
+	    </b:list>
+	</b:property>
+  </b:bean>	
+	
 </b:beans>
