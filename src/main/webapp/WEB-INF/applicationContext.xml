@@ -19,27 +19,40 @@
 	<tx:annotation-driven />
 	
 	<!-- Configurações do Spring Security -->
-	<http auto-config="true" use-expressions="true">
+	<http auto-config="true" use-expressions="true" access-denied-page="/acessoProibido.xhtml">
+	
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/convidado/**" access="hasRole('ROLE_CONVIDADO')"/>
+		<intercept-url pattern="/publico/**" access="hasRole('ROLE_PUBLICO')"/>
 		<intercept-url pattern="/index.xhtml" access="isAuthenticated()"/>
-		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
-		<intercept-url pattern="/convidado/**" access="ROLE_CONVIDADO"/>
-		<intercept-url pattern="/publico/**" access="ROLE_PUBLICO"/>
 		<form-login login-page="/login.xhtml" default-target-url="/index.xhtml"
 			always-use-default-target="true" authentication-failure-url="/login.xhtml?login_error=true" />		
 		<logout logout-success-url="/"/>
+		
 	</http>
 	
 	<authentication-manager>
 		<authentication-provider>
+			<password-encoder hash="md5" />
+			
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select login as username, senha as password, habilitado as enabled from usuario_sistema where login = ? "
+				authorities-by-username-query="select  us.login, ps.nome
+				                                 from usuario_perfil_sistema ups, usuario_sistema us, perfil_sistema ps
+				                                where ups.usuario_id = us.id
+				                                  and ups.perfil_sistema_id = ps.id
+				                                  and us.login = ?" />
+																
+			<!-- 
 			<user-service>
-				<user name="admin" password="admin" authorities="ROLE_ADM, ROLE_PUBLICO, ROLE_CONVIDADO" />
+				<user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_PUBLICO, ROLE_CONVIDADO" />
 				<user name="convidado" password="convidado" authorities="ROLE_CONVIDADO" />
 				<user name="publico" password="publico" authorities="ROLE_PUBLICO" />
 			</user-service>
+			 -->
 		</authentication-provider>
 	</authentication-manager>
-	
-	
+		
 	<!-- Configurar o spring para criar o entity manager -->
 	<b:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<b:property name="dataSource" ref="dataSource"/>
